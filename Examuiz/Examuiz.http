@@ -1,0 +1,6 @@
+@Examuiz_HostAddress = http://localhost:5236
+
+GET {{Examuiz_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
