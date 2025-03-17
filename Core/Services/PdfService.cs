@@ -1,9 +1,10 @@
-﻿using AI_Layer.Interfaces;
-using iTextSharp.text.pdf;
+﻿using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
+using Microsoft.AspNetCore.Http;
 using System.Text;
-namespace Examuiz.Services
+namespace Core.Services
 {
+
     public static class PdfService
     {
         public static (string text, List<string> images) ExtractTextAndImages(IFormFile file)
@@ -66,4 +67,5 @@ namespace Examuiz.Services
         }
 
     }
+
 }

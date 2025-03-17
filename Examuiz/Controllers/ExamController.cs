@@ -1,9 +1,7 @@
 ﻿using AI_Layer.Interfaces;
 using Core.DTOs;
-using Examuiz.Services;
-using Microsoft.AspNetCore.Http;
+using Core.Services;
 using Microsoft.AspNetCore.Mvc;
-
 namespace Examuiz.Controllers
 {
     [Route("api/exam")]
@@ -11,7 +9,7 @@ namespace Examuiz.Controllers
     public class ExamController : ControllerBase
     {
         IGenerativeAI _generativeAI;
-        public ExamController(IGenerativeAI generativeAI) 
+        public ExamController(IGenerativeAI generativeAI)
         {
             _generativeAI = generativeAI;
         }
@@ -20,6 +18,7 @@ namespace Examuiz.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateExam(ExamDTOs.CreateExamDTO createExamDTO)
         {
+
             string? ContentAsHTML = await clsExam.CreateExamPrompt(createExamDTO, _generativeAI);
             if (string.IsNullOrWhiteSpace(ContentAsHTML))
                 return BadRequest("Invalid PDF file");

@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AI_Layer\AI_Layer.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
   </ItemGroup>
 

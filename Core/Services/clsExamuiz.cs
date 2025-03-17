@@ -1,15 +1,20 @@
 ﻿using AI_Layer.Interfaces;
 using Core.DTOs;
 using Core.Util;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Examuiz.Services
+namespace Core.Services
 {
     public static class clsExam
     {
-        public static async Task<string?> CreateExamPrompt( ExamDTOs.CreateExamDTO createExamDTO, IGenerativeAI generativeAI)
+        public static async Task<string?> CreateExamPrompt(ExamDTOs.CreateExamDTO createExamDTO, IGenerativeAI generativeAI)
         {
-            if(!clsUtil.IsFileExtension(createExamDTO.ExamTextBook, "pdf")) return null;
-            if(!_CheckPDF_Pages(createExamDTO)) return null;
+            if (!clsUtil.IsFileExtension(createExamDTO.ExamTextBook, "pdf")) return null;
+            if (!_CheckPDF_Pages(createExamDTO)) return null;
 
             var (pdfText, images) = PdfService.ExtractTextAndImages(createExamDTO.ExamTextBook);
 

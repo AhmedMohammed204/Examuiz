@@ -1,6 +1,11 @@
 ﻿using Core.DTOs;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Examuiz.Services
+namespace Core.Services
 {
     public static class Prompts
     {
@@ -15,6 +20,7 @@ IMPORTANT RULES TO FOLLOW:
 - Add some space between questions to allow answers within it. You can use border to tell the student where he can write his answer (just border without any text within it).
 - Don't write answers under questions, you can write the answers together as table in the last part of exam.
 - Write the answers as with 2 columns, first column is the question number and the second column is the answer.
+- Write questions in correct order
                     ";
         }
     }
