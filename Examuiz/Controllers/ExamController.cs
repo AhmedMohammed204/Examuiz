@@ -13,7 +13,10 @@ namespace Examuiz.Controllers
         {
             _generativeAI = generativeAI;
         }
-        [HttpPost(Name = "create")]
+
+
+
+        [HttpPost("create", Name = "createExam")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CreateExam(ExamDTOs.CreateExamDTO createExamDTO)
@@ -25,7 +28,33 @@ namespace Examuiz.Controllers
 
             int startIndex = ContentAsHTML.IndexOf("```") + 8;
             int endIndex = ContentAsHTML.LastIndexOf("```");
-            return CreatedAtRoute("create", ContentAsHTML.AsSpan(startIndex, endIndex - startIndex).ToString());
+            return CreatedAtRoute("createExam", ContentAsHTML.AsSpan(startIndex, endIndex - startIndex).ToString());
         }
+    
+
+
+
+
+
+
+
+        [HttpPost("correct", Name ="correctAnswers")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> CorrectExamScores(ExamDTOs.CorrectingExamScoresDTO correctingExamScoresDTO)
+        {
+            string? ContentAsHTML = await clsExam.CorrectExamScores(correctingExamScoresDTO, _generativeAI);
+            if (string.IsNullOrWhiteSpace(ContentAsHTML))
+                return BadRequest("Invalid PDF file");
+            if (!ContentAsHTML.Contains("```")) return BadRequest("Invalid PDF file");
+            int startIndex = ContentAsHTML.IndexOf("```") + 8;
+            int endIndex = ContentAsHTML.LastIndexOf("```");
+            string res = ContentAsHTML.AsSpan(startIndex, endIndex - startIndex).ToString();
+            if (res == "<p>not exam</p>\n")
+                return BadRequest("Invalid PDF file");
+            return CreatedAtRoute("correctAnswers", res);
+        }
+
+
     }
 }

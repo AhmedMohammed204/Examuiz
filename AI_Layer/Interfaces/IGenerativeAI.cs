@@ -8,7 +8,7 @@ namespace AI_Layer.Interfaces
 {
     public interface IGenerativeAI
     {
-        Task<string> TextGenerate(string PrompotText);
-        Task<string> FileGenerate(string PromptText);
+        Task<string?> TextGenerate(string PrompotText);
+        Task<string?> TextGenerate(string PromptText, IList<string>? images = null);
     }
 }

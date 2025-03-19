@@ -14,5 +14,18 @@ namespace Core.DTOs
             public required string Difficulty { get; set; }
             public required IFormFile ExamTextBook    { get; set; }
         }
+        public class CorrectingExamScoresDTO
+        {
+            public required IFormFile StudentsAnswers { get; set; }
+            public required string SubjectName { get; set; }
+        }
+        public class AnalyzeExamAnswersDTO
+        {
+            public required IFormFile StudentsAnswersExcelFile { get; set; }
+            public required IFormFile ExamPDF_File { get; set; }
+            public required string SubjectName { get; set; }
+        }
+
+
     }
 }
