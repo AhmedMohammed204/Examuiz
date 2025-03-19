@@ -82,5 +82,38 @@ The Data:
             //VERY IMPORTANT TO FOLLOW:
             //if the data provided is not an exam remove every text that you write and write <p>not exam</p> instead.
         }
+
+        public static string AnalyzingStudentsAnswers(string StudentsData, string SubjectName)
+        {
+            StringBuilder prompt = new StringBuilder();
+            prompt.AppendLine("Data: ");
+            prompt.AppendLine(StudentsData);
+            prompt.AppendLine($"\nThe above data is students grades in {SubjectName} exam.");
+            prompt.AppendLine("I attached you the exam photos to be able to analyze well");
+            prompt.AppendLine("Please analyze these data and return the following according to students grades:");
+            prompt.AppendLine("1- Hardest Question");
+            prompt.AppendLine("2- Easiest Question");
+            prompt.AppendLine("3- Hardest Subject");
+            prompt.AppendLine("4- Easiest Subject");
+            prompt.AppendLine("5- Avarage grade");
+            prompt.AppendLine("6- Suggestions to enhance teachers skills in the subjects");
+            prompt.AppendLine("7- Addtion to Suggestions, also suggest some activities that may enhance students understanding\n");
+
+            prompt.AppendLine("IMPORTANT INSTRUCTIONS:");
+            prompt.AppendLine("1- Return the result in JSON Format as this:");
+            prompt.AppendLine("    'Questions' : ");
+            prompt.AppendLine("    {");
+            prompt.AppendLine("            /* each question number and total wrong answers on it + the percentage of the wrongs */");
+            prompt.AppendLine("    },");
+            prompt.AppendLine("    'Subjects':");
+            prompt.AppendLine("    {");
+            prompt.AppendLine("        'Hardest' : /* the hardest subject according the students answers*/,");
+            prompt.AppendLine("        'Easiest' : /* the easiest subject according the students answers*/,");
+            prompt.AppendLine("    },");
+            prompt.AppendLine("    'AverageGrades' : /* Avarage Grades */ ,");
+            prompt.AppendLine("    'Suggestions' : [ /* in 15 to 30 sentences write in deep Suggestions to enhance the teachers skills and students socres & understanding to the subjects (if they where bad). Also give some advice about hardest subjects to students (At the end of the day the most improtant thing is enhancing students level)  */ ]");
+            prompt.AppendLine("}");
+            return prompt.ToString();
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿// Core/Services/PdfService.cs
+using Core.Extentions;
 using iTextSharp.text.pdf;
 using iTextSharp.text.pdf.parser;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,10 @@ namespace Core.Services
     {
         public static string ExtractText(IFormFile file)
         {
+            if (file.IsFileSizeSafe( 10 * 1024 * 1024))
+                throw new ArgumentException("File size exceeds 10MB limit");
+
+
             using var reader = new PdfReader(file.OpenReadStream());
             StringBuilder text = new StringBuilder();
 
@@ -25,8 +30,12 @@ namespace Core.Services
 
         public static List<string> ExtractImages(IFormFile file)
         {
+            if (file.IsFileSizeSafe(10 * 1024 * 1024))
+                throw new ArgumentException("File size exceeds 10MB limit");
+
             List<string> images = new List<string>();
             using var reader = new PdfReader(file.OpenReadStream());
+
 
             for (int i = 1; i <= reader.NumberOfPages; i++)
             {

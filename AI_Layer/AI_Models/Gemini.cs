@@ -78,8 +78,6 @@ namespace AI_Layer.AI_Models
             var response = _SendToGemini(PromptText, images);
             var responseBody = await response.Content.ReadAsStringAsync();
             dynamic? result = JsonConvert.DeserializeObject(responseBody);
-            if (!result)
-                throw new Exception("There is no result");
             return result?.candidates?[0]?.content?.parts?[0]?.text;
         }
     }

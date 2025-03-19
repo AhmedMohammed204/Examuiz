@@ -1,7 +1,9 @@
 ﻿using AI_Layer.Interfaces;
 using Core.DTOs;
+using Core.Extentions;
 using Core.Services;
 using Microsoft.AspNetCore.Mvc;
+using static Core.DTOs.ExamDTOs;
 namespace Examuiz.Controllers
 {
     [Route("api/exam")]
@@ -53,6 +55,14 @@ namespace Examuiz.Controllers
             if (res == "<p>not exam</p>\n")
                 return BadRequest("Invalid PDF file");
             return CreatedAtRoute("correctAnswers", res);
+        }
+
+        [HttpPost("analyze", Name = "AnalyzingStudentsAnswers")]
+        public async Task<IActionResult> AnalyzingStudentsAnswers(AnalyzeExamAnswersDTO analyzeExamAnswersDTO)
+        {
+            string? response = await clsExam.AnalyzingStudentsAnswers(analyzeExamAnswersDTO, _generativeAI);
+            return Created("AnalyzingStudentsAnswers", response);
+
         }
 
 
