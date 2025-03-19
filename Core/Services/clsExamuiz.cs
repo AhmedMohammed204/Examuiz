@@ -1,6 +1,7 @@
 ﻿using AI_Layer.Interfaces;
 using Core.DTOs;
 using Core.Extentions;
+using System.Diagnostics;
 using static Core.DTOs.ExamDTOs;
 
 namespace Core.Services
@@ -15,12 +16,12 @@ namespace Core.Services
             if (createExamDTO.FromPage > PageCount || createExamDTO.ToPage > PageCount) return false;
             return true;
         }
-        private static async Task<string> _GeContentFromAI(IGenerativeAI generativeAI, string Prompt, IList<string>? images)
+        private static async Task<string?> _GeContentFromAI(IGenerativeAI generativeAI, string Prompt, IList<string>? images)
         {
 
-            string PDF_Content = await generativeAI.TextGenerate(Prompt, images);
+            string res = await generativeAI.TextGenerate(Prompt, images);
 
-            return PDF_Content;
+            return res;
         }
         public static async Task<string?> CreateExamPrompt(ExamDTOs.CreateExamDTO createExamDTO, IGenerativeAI generativeAI)
         {
@@ -57,14 +58,17 @@ namespace Core.Services
         public static async Task<string?> AnalyzingStudentsAnswers(AnalyzeExamAnswersDTO analyzeExamAnswersDTO, IGenerativeAI generativeAI)
         {
             if (!analyzeExamAnswersDTO.ExamPDF_File.IsCorrectFile("pdf")) throw new Exception("Invalid Exam PDF File");
-            var images = PdfService.ExtractImages(analyzeExamAnswersDTO.ExamPDF_File);
-
-            if (images.Count == 0)
+            var pdfData = PdfService.ExtractPdfData(analyzeExamAnswersDTO.ExamPDF_File);
+            if (pdfData.images.Count == 0)
                 throw new Exception("correct exam must be: PDF File and only images");
             List<string> data = await ExcelService.ReadExcelFile(analyzeExamAnswersDTO.StudentsAnswersExcelFile);
-            string Prompt = Prompts.AnalyzingStudentsAnswers( data.JoinString()  , analyzeExamAnswersDTO.SubjectName );
-            string ContentAsHTML = await _GeContentFromAI(generativeAI, Prompt, images);
-            return ContentAsHTML;
+            string Prompt = Prompts.AnalyzingStudentsAnswers( data.JoinString()  , analyzeExamAnswersDTO.SubjectName, pdfData);
+            Stopwatch s = new Stopwatch();
+            s.Start();
+            string ContentAsJson = await _GeContentFromAI(generativeAI, Prompt, pdfData.images);
+            s.Stop();
+            Console.WriteLine($"\n\n\n Time to send request to AI is {s.ElapsedMilliseconds}ms \n\n\n");
+            return ContentAsJson;
         }
     }
 }

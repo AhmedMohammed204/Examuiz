@@ -45,8 +45,8 @@ namespace AI_Layer.AI_Models
                 {
                     maxOutputTokens = 8192,
                     temperature = 0,
-                    topP = 0.2,
-                    topK = 40
+                    topP = 0,
+                    topK = 1
                 }
             };
 

@@ -61,7 +61,11 @@ namespace Examuiz.Controllers
         public async Task<IActionResult> AnalyzingStudentsAnswers(AnalyzeExamAnswersDTO analyzeExamAnswersDTO)
         {
             string? response = await clsExam.AnalyzingStudentsAnswers(analyzeExamAnswersDTO, _generativeAI);
-            return Created("AnalyzingStudentsAnswers", response);
+            if (!response.Contains("```")) return BadRequest("Invalid PDF file");
+            int startIndex = response.IndexOf("```") + 8;
+            int endIndex = response.LastIndexOf("```");
+            string result = response.AsSpan(startIndex, endIndex - startIndex).ToString();
+            return Created("AnalyzingStudentsAnswers", result);
 
         }
 
