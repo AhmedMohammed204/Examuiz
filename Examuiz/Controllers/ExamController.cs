@@ -40,22 +40,22 @@ namespace Examuiz.Controllers
 
 
 
-        [HttpPost("correct", Name ="correctAnswers")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CorrectExamScores(ExamDTOs.CorrectingExamScoresDTO correctingExamScoresDTO)
-        {
-            string? ContentAsHTML = await clsExam.CorrectExamScores(correctingExamScoresDTO, _generativeAI);
-            if (string.IsNullOrWhiteSpace(ContentAsHTML))
-                return BadRequest("Invalid PDF file");
-            if (!ContentAsHTML.Contains("```")) return BadRequest("Invalid PDF file");
-            int startIndex = ContentAsHTML.IndexOf("```") + 8;
-            int endIndex = ContentAsHTML.LastIndexOf("```");
-            string res = ContentAsHTML.AsSpan(startIndex, endIndex - startIndex).ToString();
-            if (res == "<p>not exam</p>\n")
-                return BadRequest("Invalid PDF file");
-            return CreatedAtRoute("correctAnswers", res);
-        }
+        //[HttpPost("correct", Name ="correctAnswers")]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        //public async Task<IActionResult> CorrectExamScores(ExamDTOs.CorrectingExamScoresDTO correctingExamScoresDTO)
+        //{
+        //    string? ContentAsHTML = await clsExam.CorrectExamScores(correctingExamScoresDTO, _generativeAI);
+        //    if (string.IsNullOrWhiteSpace(ContentAsHTML))
+        //        return BadRequest("Invalid PDF file");
+        //    if (!ContentAsHTML.Contains("```")) return BadRequest("Invalid PDF file");
+        //    int startIndex = ContentAsHTML.IndexOf("```") + 8;
+        //    int endIndex = ContentAsHTML.LastIndexOf("```");
+        //    string res = ContentAsHTML.AsSpan(startIndex, endIndex - startIndex).ToString();
+        //    if (res == "<p>not exam</p>\n")
+        //        return BadRequest("Invalid PDF file");
+        //    return CreatedAtRoute("correctAnswers", res);
+        //}
 
         [HttpPost("analyze", Name = "AnalyzingStudentsAnswers")]
         public async Task<IActionResult> AnalyzingStudentsAnswers(AnalyzeExamAnswersDTO analyzeExamAnswersDTO)
