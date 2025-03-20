@@ -3,6 +3,13 @@
 [![Examuiz Mobile App](https://img.shields.io/badge/Mobile%20App-Examuiz_Flutter-blue?style=flat&logo=flutter)](https://github.com/MohamedHamdySoftwareEngineer/Examuiz)
 
 A smart service for automated exam generation and student answer analysis, designed to empower educators with AI-driven insights.
+## Demo Video 📼
+
+Demo Video [Link 🔗](https://drive.google.com/file/d/1FVxVXJzkgnJG8peBZfj1OoKFK1Pi4_NK/view?usp=drivesdk) 
+
+by [Mohamed Hamdy](https://github.com/MohamedHamdySoftwareEngineer)
+
+
 
 ## 🚀 Features
 
