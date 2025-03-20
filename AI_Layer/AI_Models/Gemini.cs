@@ -6,9 +6,12 @@ namespace AI_Layer.AI_Models
 {
     public class Gemini : IGenerativeAI
     {
+
         private readonly HttpClient _httpClient;
         private string _Key { get; set; }
         private string _url;
+        public string Prompt { get; set; } = "";
+        public IList<string>? Images { get; set; } = null;
         public Gemini(string Key)
         {
             _Key = Key;
@@ -16,16 +19,16 @@ namespace AI_Layer.AI_Models
             _url = $"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={_Key}";
 
         }
-        private object _RequestBody(string PromptText, IList<string>? images = null)
+        private object _RequestBody()
         {
             var parts = new List<object>
             {
-                new { text = PromptText }
+                new { text = Prompt }
             };
 
-            if (images != null)
+            if (Images != null)
             {
-                parts.AddRange(images.Select(img => new
+                parts.AddRange(Images.Select(img => new
                 {
                     inline_data = new
                     {
@@ -52,30 +55,33 @@ namespace AI_Layer.AI_Models
 
             return requestBody;
         }
-        private StringContent _PrepareRequestBody(string PromptText, IList<string>? images = null)
+        private StringContent _PrepareRequestBody()
         {
 
-            var requestBody = _RequestBody(PromptText, images);
+            var requestBody = _RequestBody();
             var jsonContent = JsonConvert.SerializeObject(requestBody);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             return content;
         }
-        private HttpResponseMessage _SendToGemini(string PromptText, IList<string>? images = null)
+        private HttpResponseMessage _SendToGemini()
         {
-            var content = _PrepareRequestBody(PromptText, images);
+            var content = _PrepareRequestBody();
             var response = _httpClient.PostAsync(_url, content).Result;
             response.EnsureSuccessStatusCode();
             return response;
         }
         public async Task<string?> TextGenerate(string PromptText)
         {
-            var response = _SendToGemini(PromptText);
+            this.Prompt = PromptText;
+            var response = _SendToGemini();
             var result = await response.Content.ReadAsStringAsync();
             return result;
         }
         public async Task<string?> TextGenerate(string PromptText, IList<string>? images = null)
         {
-            var response = _SendToGemini(PromptText, images);
+            this.Prompt = PromptText;
+            this.Images = images;
+            var response = _SendToGemini();
             var responseBody = await response.Content.ReadAsStringAsync();
             dynamic? result = JsonConvert.DeserializeObject(responseBody);
             return result?.candidates?[0]?.content?.parts?[0]?.text;

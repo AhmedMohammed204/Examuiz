@@ -30,7 +30,7 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
 #region Dependency Injection
 builder.Services.AddHttpClient();
 builder.Services.Configure<GeminiSettings>(builder.Configuration.GetSection("GeminiApi"));
-builder.Services.AddSingleton<IGenerativeAI>(sp =>
+builder.Services.AddScoped<IGenerativeAI>(sp =>
 {
     var settings = sp.GetRequiredService<IOptions<GeminiSettings>>().Value;
     return new Gemini(settings.ApiKey);
