@@ -5,7 +5,7 @@
 A smart service for automated exam generation and student answer analysis, designed to empower educators with AI-driven insights.
 ## Demo Video 📼
 
-Demo Video [Link 🔗](https://drive.google.com/file/d/1FVxVXJzkgnJG8peBZfj1OoKFK1Pi4_NK/view?usp=drivesdk) 
+Demo Video [Link 🔗](https://youtu.be/uAMWSMSwIAg?si=GdD7LKihqdCfiHIN) 
 
 by [Mohamed Hamdy](https://github.com/MohamedHamdySoftwareEngineer)
 
